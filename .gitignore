@@ -24,3 +24,17 @@ hs_err_pid*
 
 #macOS files
 .DS_Store
+
+# IntelliJ project files
+*.iml
+*.iws
+*.ipr
+.idea/
+
+# Maven
+target/
+
+# eclipse project file
+.settings/
+.classpath
+.project
