@@ -1,6 +1,6 @@
 # winwinwiki
 
-### Status
+### Travis Build Status
 
 [![Build Status](https://travis-ci.com/winwinwiki/winwinwiki.svg?branch=master)](https://travis-ci.com/winwinwiki/winwinwiki)
 
