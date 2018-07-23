@@ -1,8 +1,11 @@
 package hello;
 
 import java.sql.*;
+import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
+
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +23,38 @@ public class GreetingController {
                             String.format(template, name, timeFromDB));
     }
 
+    class DBSettings {
+        String host;
+        String name;
+        String user;
+        String password;
+    }
+
+    private DBSettings getDBSettingsFromEnv() {
+        DBSettings dbSettings = new DBSettings();
+        dbSettings.host = getEnvOrDefault("WINWIN_DB_HOST", "localhost");
+        dbSettings.name = getEnvOrDefault("WINWIN_DB_NAME", "winwindb");
+        dbSettings.user = getEnvOrDefault("WINWIN_DB_USER", "winwindbuser");
+        dbSettings.password = getEnvOrDefault("WINWIN_DB_PASSWORD", "winwindbpassword");
+        return dbSettings;
+    }
+
+    private String getEnvOrDefault(String key, String defaultValue) {
+        Map<String, String> env = System.getenv();
+        String value = env.get(key);
+        if(StringUtils.isEmpty(value)) {
+            return defaultValue;
+        } else {
+            return value;
+        }
+    }
+
     private String testPostgresConnection() {
-        String url = "jdbc:postgresql://localhost/winwindb";
+        DBSettings dbSettings = getDBSettingsFromEnv();
+        String url = String.format("jdbc:postgresql://%s/%s", dbSettings.host, dbSettings.name);
         Properties props = new Properties();
-        props.setProperty("user","winwindbuser");
-        props.setProperty("password","winwindbpassword");
+        props.setProperty("user",dbSettings.user);
+        props.setProperty("password",dbSettings.password);
         //props.setProperty("ssl","true");
         try(Connection conn = DriverManager.getConnection(url, props);
             Statement stmt = conn.createStatement();

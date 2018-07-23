@@ -1,0 +1,21 @@
+version: '3'
+services:
+  winwinwiki-java-service:
+    image: "winwinwiki/winwinwiki:0.1.0"
+    ports:
+     - "8080:8080"
+    links:
+    - "winwin-dev-db"
+    environment:
+    - "WINWIN_DB_HOST=winwin-dev-db"
+    - "WINWIN_DB_NAME=winwindb"
+    - "WINWIN_DB_USER=winwindbuser"
+    - "WINWIN_DB_PASSWORD=winwindbpassword"
+  winwin-dev-db:
+    image: "postgres"
+    ports:
+      - "5432:5432"
+    environment:
+     - "POSTGRES_DB=winwindb"
+     - "POSTGRES_USER=winwindbuser"
+     - "POSTGRES_PASSWORD=winwindbpassword"
