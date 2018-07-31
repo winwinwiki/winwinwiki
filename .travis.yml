@@ -2,3 +2,9 @@ sudo: false
 language: java
 jdk:
   - openjdk9
+services:
+    - postgresql
+before_script:
+  - psql -c "CREATE DATABASE winwindb;"
+  - psql -c "CREATE USER winwindbuser WITH ENCRYPTED PASSWORD 'winwindbpassword';"
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE winwindb TO winwindbuser;"

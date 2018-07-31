@@ -1,5 +1,8 @@
-package hello;
+package org.winwin.request;
 
+import lombok.Data;
+
+@Data
 public class GreetingResponse {
 
     private final long id;
@@ -8,13 +11,5 @@ public class GreetingResponse {
     public GreetingResponse(long id, String content) {
         this.id = id;
         this.content = content;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
     }
 }
