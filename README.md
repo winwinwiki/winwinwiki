@@ -8,9 +8,10 @@
 
 ### Setting up dependencies:
 
-* install Java Development Kit 9
-* install maven
-* install docker
+* install Java Development Kit 9: 
+* install maven: [setup instructions](https://maven.apache.org/install.html)
+* install docker: [setup instructions](https://docs.docker.com/install/)
+* install lombok plugin for your IDE: [setup documentation](https://projectlombok.org/setup/overview)
 
 ### Running the service using docker-compose (preferred)
 

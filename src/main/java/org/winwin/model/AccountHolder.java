@@ -1,5 +1,7 @@
 package org.winwin.model;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "AccountHolder")
+@Data
 public class AccountHolder extends AuditModel {
 	
 	@Id
@@ -27,29 +30,4 @@ public class AccountHolder extends AuditModel {
 	@Column(columnDefinition = "TEXT")
 	@Size(min = 3, max = 100)
 	private String password;
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getUseremail() {
-		return useremail;
-	}
-
-	public void setUseremail(String useremail) {
-		this.useremail = useremail;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 }

@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("org.winwin.model")
 @EnableJpaRepositories("org.winwin.repository")
 public class RestServiceApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(RestServiceApplication.class, args);
 	}

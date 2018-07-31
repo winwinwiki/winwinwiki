@@ -1,5 +1,7 @@
 package org.winwin.model;
 
+import lombok.Data;
+
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -13,8 +15,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Organisation")
+@Data
 public class Organisation extends AuditModel {
-
 	@Id
 	@GeneratedValue(generator = "org_generator")
 	@SequenceGenerator(name = "org_generator", sequenceName = "org_sequence", initialValue = 1)
@@ -27,29 +29,4 @@ public class Organisation extends AuditModel {
 	@OneToMany
 	@JoinColumn(name = "id")
 	private List<Revenue> revenue;
-
-	public List<Revenue> getRevenue() {
-		return revenue;
-	}
-
-	public void setRevenue(List<Revenue> revenue) {
-		this.revenue = revenue;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Address getAddress() {
-		return address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
 }
