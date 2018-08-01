@@ -27,7 +27,7 @@ public class GreetingController {
 
 	@RequestMapping("/greeting")
 	public GreetingResponse greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-		String timeFromDB = testPostgresConnection();
+		String timeFromDB = getCurrentTimeFromDB();
 		return new GreetingResponse(counter.incrementAndGet(),
 				String.format(template, name, timeFromDB));
 	}
@@ -68,7 +68,7 @@ public class GreetingController {
 		}
 	}
 
-	private String testPostgresConnection() {
+	private String getCurrentTimeFromDB() {
 		DBSettings dbSettings = getDBSettingsFromEnv();
 		String url = String.format("jdbc:postgresql://%s/%s", dbSettings.host, dbSettings.name);
 		Properties props = new Properties();

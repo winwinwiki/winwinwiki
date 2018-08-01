@@ -1,5 +1,7 @@
 sudo: false
 language: java
+env:
+  - WINWIN_DB_HOST=localhost WINWIN_DB_NAME=winwindb WINWIN_DB_USER=winwindbuser WINWIN_DB_PASSWORD=winwindbpassword
 jdk:
   - openjdk9
 services:
