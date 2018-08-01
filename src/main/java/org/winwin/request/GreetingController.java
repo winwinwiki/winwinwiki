@@ -10,11 +10,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.winwin.model.AccountHolder;
 import org.winwin.repository.AccountHolderRepository;
 
@@ -25,8 +21,8 @@ public class GreetingController {
 	
 	private final AtomicLong counter = new AtomicLong();
 
-	@RequestMapping("/greeting")
-	public GreetingResponse greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
+	@GetMapping("/greeting")
+	public GreetingResponse getGreeting(@RequestParam(value = "name", defaultValue = "World") String name) {
 		String timeFromDB = getCurrentTimeFromDB();
 		return new GreetingResponse(counter.incrementAndGet(),
 				String.format(template, name, timeFromDB));
@@ -35,8 +31,8 @@ public class GreetingController {
 	@Autowired
 	private AccountHolderRepository ahRepository;
 
-	@PostMapping("/addUser")
-	public AccountHolder createQuestion(@Valid @RequestBody AccountHolder user) {
+	@PutMapping("/users")
+	public AccountHolder addUser(@Valid @RequestBody AccountHolder user) {
 		user.setCreatedAt(new Date());
 		user.setUpdatedAt(new Date());
 		return ahRepository.save(user);
