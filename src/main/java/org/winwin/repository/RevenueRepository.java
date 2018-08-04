@@ -7,5 +7,4 @@ import org.winwin.model.Revenue;
 @Repository
 public interface RevenueRepository extends JpaRepository<Revenue, Long> {
 
-	
 }
