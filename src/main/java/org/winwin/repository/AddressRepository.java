@@ -7,5 +7,4 @@ import org.winwin.model.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-	
 }

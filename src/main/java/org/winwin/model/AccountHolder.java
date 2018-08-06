@@ -30,4 +30,6 @@ public class AccountHolder extends AuditModel {
 	@Column(columnDefinition = "TEXT")
 	@Size(min = 3, max = 100)
 	private String password;
+	
+	
 }
