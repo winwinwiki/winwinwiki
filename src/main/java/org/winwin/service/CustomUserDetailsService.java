@@ -26,11 +26,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     private ApplicationUserRepository userRepository;
  
     @Override
-    public UserDetails loadUserByUsername(String username) {
-    	log.error("username = " + username);
-        ApplicationUser user = userRepository.findByUsername(username);
+    public UserDetails loadUserByUsername(String email) {
+    	log.error("username = " + email);
+        ApplicationUser user = userRepository.findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         Set<GrantedAuthority> authoritySet =  new HashSet<GrantedAuthority>();
         authoritySet.add(new SimpleGrantedAuthority(user.getRole()));
