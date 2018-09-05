@@ -17,16 +17,31 @@ public class ApplicationUser extends AuditModel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-
+	
 	@Column(nullable = false, unique = true)
 	private String username;
+	
+	@NotBlank
+	@Column(nullable = false)
+	private String firstname;
 
 	@NotBlank
 	@Column(nullable = false)
+	private String lastname;
+	
+	@NotBlank
+	@Column(nullable = false)
 	private String password;
+	
+	@NotBlank
+	@Column(nullable = false)
+	private String email;
 
 	@NotBlank
 	@Column(nullable = false)
 	private String role;
 	
+	@NotBlank
+	@Column(nullable = false)
+	private String location;
 }
