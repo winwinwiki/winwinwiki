@@ -66,7 +66,9 @@ public class UserController {
 			userInDB.setUpdatedAt(new Date());
 			userInDB.setLocation(user.getLocation());
 			userInDB.setRole(user.getRole());
-			userInDB.setUsername(user.getUsername());
+			userInDB.setFirstname(user.getFirstname());
+			userInDB.setLastname(user.getLastname());
+			userInDB.setEmail(user.getEmail());
 			userInDB.setPassword(passwdEncoder.encode(user.getPassword()));
 			auRepository.save(userInDB);
 			return SUCCESS;
