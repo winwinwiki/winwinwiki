@@ -8,7 +8,7 @@
 
 ### Setting up dependencies:
 
-* install Java Development Kit 9: 
+* install Java Development Kit 10: 
 * install maven: [setup instructions](https://maven.apache.org/install.html)
 * install docker: [setup instructions](https://docs.docker.com/install/)
 * install lombok plugin for your IDE: [setup documentation](https://projectlombok.org/setup/overview)
