@@ -24,7 +24,7 @@ public class PingControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void greetingShouldReturnDefaultMessage() throws Exception {
+    public void pingShouldReturnDefaultMessage() throws Exception {
         assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/ping",
                 String.class)).contains("OK");
     }

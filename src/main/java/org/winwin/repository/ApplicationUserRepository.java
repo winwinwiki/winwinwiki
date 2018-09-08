@@ -5,6 +5,8 @@ import org.winwin.model.ApplicationUser;
 
 public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> {
 
-	ApplicationUser findByUsername(String username);
+	ApplicationUser findByUsername(String userName);
+
+	ApplicationUser findByEmail(String userName);
 
 }
