@@ -6,7 +6,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,6 +39,18 @@ public class UserController {
 	public ApplicationUser getUser(@Valid @PathVariable("id") long id) {
 		Optional<ApplicationUser> result = auRepository.findById(id);
 		return removeCriticalFields(result.orElse(null));
+	}
+
+	@GetMapping("/user")
+	public ApplicationUser searchUser(@Param("userName") String userName, @Param("email") String email) {
+		ApplicationUser result = null;
+		if(! StringUtils.isEmpty(userName)) {
+			result = auRepository.findByUsername(userName);
+		} else if (! StringUtils.isEmpty(email)) {
+			result = auRepository.findByEmail(email);
+		}
+
+		return removeCriticalFields(result);
 	}
 	
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
@@ -90,6 +104,8 @@ public class UserController {
 			return FAILURE;
 		}
 	}
+
+
 	
 	private ApplicationUser removeCriticalFields(ApplicationUser user) {
 		if( user != null ) {
