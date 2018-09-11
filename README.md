@@ -20,7 +20,7 @@ mvn package dockerfile:build
 docker-compose up
 ```
 
-The service should be up on port 8080. all apis are listed in http://localhost:8080/swagger-ui.html
+The service should be up on port 80. all apis are listed in http://localhost:80/swagger-ui.html
 
 ### Running the service w/o using docker-compose
 
@@ -44,4 +44,4 @@ export WINWIN_DB_PASSWORD=winwindbpassword
 ./mvnw spring-boot:run
 ```
 
-The service should be up on port 8080. all apis are listed in http://localhost:8080/swagger-ui.html
+The service should be up on port 80. all apis are listed in http://localhost:80/swagger-ui.html

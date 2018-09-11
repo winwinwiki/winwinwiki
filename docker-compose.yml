@@ -3,7 +3,7 @@ services:
   winwinwiki-java-service:
     image: "winwinwiki/winwinwiki:0.1.0"
     ports:
-     - "8080:8080"
+     - "80:80"
     links:
     - "winwin-dev-db"
     environment:
