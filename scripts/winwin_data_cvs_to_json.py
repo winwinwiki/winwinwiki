@@ -61,8 +61,8 @@ def process_csv(file, json_file, format, es_url):
                     continue
                 else:
                     spi_primary_field = re.search('Primary( \S*)( \(Auto\))*', field_name, re.IGNORECASE)
-                    spi_field = re.search('SPI( \S*)( \d)*( \(Auto\))*', field_name, re.IGNORECASE)
-                    sdg_field = re.search('SDG( \S*)( \d)*( \(Auto\))*', field_name, re.IGNORECASE)
+                    spi_field = re.search('SPI( \S*)( \d+)*( \(Auto\))*', field_name, re.IGNORECASE)
+                    sdg_field = re.search('SDG( \S*)( \d+)*( \(Auto\))*', field_name, re.IGNORECASE)
                     ntee_field = re.search('NTEE( \S*)( \(Auto\))*', field_name, re.IGNORECASE)
                     headquarters_field = re.search('Headquarters( \S*)( \(Auto\))*', field_name, re.IGNORECASE)
                     if spi_primary_field:
@@ -94,16 +94,8 @@ def process_csv(file, json_file, format, es_url):
                         headquarters[headquarters_field_name] = field_value
                     else:
                         program[field_name] = field_value
-                
-                SPI_array = []
-                for key, value in SPI.iteritems():
-                    SPI_array.append(value)
-                program["SPI"] = SPI_array
-
-                SDG_array = []
-                for key, value in SDG.iteritems():
-                    SDG_array.append(value)
-                program["SDG"] = SDG_array
+                program["SPI"] = map_to_array(SPI)
+                program["SDG"] = map_to_array(SDG)
                 program["NTEE"] = NTEE
                 program["Headquarters"] = headquarters
 
@@ -121,7 +113,12 @@ def process_csv(file, json_file, format, es_url):
             os.system(upload_command)
             print "\nuploaded {} records".format(row_count)
             os.remove(json_file)
-            
+
+def map_to_array(inputMap):
+    outputArray = []
+    for key, value in inputMap.iteritems():
+        outputArray.append(value)
+    return outputArray
 
 #Convert csv data into json and write it
 def write_json(data, json_file, format):
