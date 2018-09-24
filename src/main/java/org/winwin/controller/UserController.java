@@ -104,8 +104,6 @@ public class UserController {
 			return FAILURE;
 		}
 	}
-
-
 	
 	private ApplicationUser removeCriticalFields(ApplicationUser user) {
 		if( user != null ) {
