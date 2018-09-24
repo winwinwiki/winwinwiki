@@ -1,4 +1,4 @@
-package org.winwin.request;
+package org.winwin.controller;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

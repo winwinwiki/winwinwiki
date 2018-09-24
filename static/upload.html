@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Upload</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+</head>
+
+<body>
+    This is a simple frontend code that demonstrates how file need to be uploaded to winwin service.
+    <br/>
+    <input type="file" id="file-chooser" />
+    <br/>
+    <button id="upload-button">Upload to S3</button>
+    <br/>
+    <div id="results"></div>
+    
+    <script type="text/javascript">
+    var accessKeyId = ""
+    var  secretAccessKey = ""
+	var sessionToken = ""
+    var bucketName = "";
+    var prefix = "";
+    
+    AWS.config.credentials = new AWS.Credentials(accessKeyId, secretAccessKey, sessionToken);
+    
+    AWS.config.credentials.get(function(err) {
+        if (err) 
+        	alert("Error: " + err);
+        console.log(AWS.config.credentials);
+    });
+
+    var bucket = new AWS.S3({
+        params: {
+            Bucket: bucketName
+        }
+    });
+    
+    listObjs();
+    
+    var fileChooser = document.getElementById('file-chooser');
+    var button = document.getElementById('upload-button');
+    var results = document.getElementById('results');
+    button.addEventListener('click', function() {
+    
+        var file = fileChooser.files[0];
+
+        if (file) {
+
+            results.innerHTML = '';
+            var objKey = 'testing/' + file.name;
+            var params = {
+                Key: objKey,
+                ContentType: file.type,
+                Body: file
+            };
+                
+            bucket.putObject(params, function(err, data) {
+                if (err) {
+                    results.innerHTML = 'ERROR putObject:' + err;
+                } else {
+                    console.log(data);
+                    listObjs();
+                }
+            }).on('httpUploadProgress', function(evt) {
+                console.log('Progress:', evt.loaded /  evt.total * 100); 
+            });
+        } else {
+            results.innerHTML = 'Nothing to upload.';
+        }
+    }, false);
+    
+    function listObjs() {
+        bucket.listObjects({
+            Prefix: prefix
+        }, function(err, data) {
+            if (err) {
+                results.innerHTML = 'ERROR Listing:' + err;
+            } else {
+                console.log(data);
+                var objKeys = "";
+                data.Contents.forEach(function(obj) {
+                    objKeys += obj.Key + "<br>";
+                });
+                results.innerHTML = objKeys;
+            }
+        });
+    }
+    </script>
+</body>
+
+</html>
