@@ -15,7 +15,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
-@ComponentScan({"org.winwin.config", "org.winwin.request"})
+@ComponentScan({"org.winwin.config", "org.winwin.controller"})
 @EntityScan("org.winwin.model")
 @EnableJpaRepositories("org.winwin.repository")
 @EnableSwagger2
