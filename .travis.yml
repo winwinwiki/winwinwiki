@@ -1,5 +1,11 @@
 sudo: false
 language: java
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
 env:
   - WINWIN_DB_HOST=localhost WINWIN_DB_NAME=winwindb WINWIN_DB_USER=winwindbuser WINWIN_DB_PASSWORD=winwindbpassword
 jdk:
