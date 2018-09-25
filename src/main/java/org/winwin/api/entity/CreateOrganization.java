@@ -1,14 +1,12 @@
 package org.winwin.api.entity;
 
-import org.winwin.model.Organisation;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.Data;
 
 @Data
-public class CreateOrganisation {
+public class CreateOrganization {
 	String name;
 	String description;
     Long totalAssets;
@@ -20,7 +18,7 @@ public class CreateOrganisation {
     String website;
     
     public static void main(String[] args) throws JsonProcessingException {
-		CreateOrganisation org = new CreateOrganisation();
+		CreateOrganization org = new CreateOrganization();
 		org.setName("WinWin");
 		org.setDescription("Non Profit");
 		org.setTotalAssets(100000L);

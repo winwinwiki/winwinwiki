@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.winwin.api.entity.APIAddress;
-import org.winwin.api.entity.CreateOrganisation;
+import org.winwin.api.entity.CreateOrganization;
 import org.winwin.model.Address;
-import org.winwin.model.Organisation;
+import org.winwin.model.Organization;
 import org.winwin.repository.AddressRepository;
-import org.winwin.repository.OrganisationRepository;
+import org.winwin.repository.OrganizationRepository;
 import org.winwin.repository.RevenueRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
-public class OrganisationController {
+public class OrganizationController {
 
 	@Autowired
-	private OrganisationRepository orgRepo;
+	private OrganizationRepository orgRepo;
 
 	@Autowired
 	private AddressRepository addressRepo;
@@ -36,21 +36,21 @@ public class OrganisationController {
 	private RevenueRepository revenueRepo;
 	
 	@GetMapping("/organization/{id}")
-	public Organisation getOrganisation(@Valid @PathVariable("id") long id) {
+	public Organization getOrganization(@Valid @PathVariable("id") long id) {
 		return orgRepo.getOne(id);
 	}
 	
 	@PostMapping("/organization/{id}")
-	public Organisation createOrganisation(@Valid @PathVariable("id") long id,
-			@Valid @RequestBody CreateOrganisation request) {
+	public Organization createOrganization(@Valid @PathVariable("id") long id,
+										   @Valid @RequestBody CreateOrganization request) {
 		
 		if( id != 0 ) {
-			Organisation org = orgRepo.getOne(id);
+			Organization org = orgRepo.getOne(id);
 			if( org == null || org.isActive() == false) {
-				throw new RuntimeException("Active Org doesnot exist");
+				throw new RuntimeException("Active org does not exist");
 			}
 		}
-		Organisation org = new Organisation();
+		Organization org = new Organization();
 		org.setUpdatedAt(new Date());
 		org.setCreatedAt(new Date());
 		org.setActive(true);
@@ -68,9 +68,9 @@ public class OrganisationController {
 	}
 	
 	@DeleteMapping("/organization/{id}")
-	public Organisation deleteOrganisation(@Valid @PathVariable("id") long id,
-			@Valid @RequestBody CreateOrganisation request) {
-		Organisation org = orgRepo.getOne(id);
+	public Organization deleteOrganization(@Valid @PathVariable("id") long id,
+										   @Valid @RequestBody CreateOrganization request) {
+		Organization org = orgRepo.getOne(id);
 		if( org != null && org.isActive() ) {
 			org.setUpdatedAt(new Date());
 			org.setActive(false);
@@ -80,9 +80,9 @@ public class OrganisationController {
 	}
 	
 	@PutMapping("/organization/{id}")
-	public Organisation getOrganisation(@Valid @PathVariable("id") long id,
-			@Valid @RequestBody CreateOrganisation request) {
-		Organisation org = orgRepo.getOne(id);
+	public Organization getOrganization(@Valid @PathVariable("id") long id,
+										@Valid @RequestBody CreateOrganization request) {
+		Organization org = orgRepo.getOne(id);
 		if( org != null && org.isActive() ) {
 			org.setUpdatedAt(new Date());
 			org.setName(request.getName());
@@ -101,9 +101,9 @@ public class OrganisationController {
 	}
 	
 	@PutMapping("/organization/{id}/address")
-	public Organisation getOrganisation(@Valid @PathVariable("id") long id,
-			@Valid @RequestBody APIAddress request) {
-		Organisation org = orgRepo.getOne(id);
+	public Organization getOrganization(@Valid @PathVariable("id") long id,
+										@Valid @RequestBody APIAddress request) {
+		Organization org = orgRepo.getOne(id);
 		if( org != null && org.isActive() ) {
 			org.setUpdatedAt(new Date());
 			Address address = org.getAddress();
@@ -124,7 +124,5 @@ public class OrganisationController {
 		}
 		throw new RuntimeException("Active Org doesnot exist");
 	}
-
-
 
 }

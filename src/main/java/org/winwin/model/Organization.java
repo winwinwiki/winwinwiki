@@ -16,12 +16,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "Organisation")
+@Table(name = "Organization")
 @Data
-public class Organisation extends AuditModel {
+public class Organization extends AuditModel {
 	@Id
 	@GeneratedValue(generator = "org_generator")
-	@SequenceGenerator(name = "org_generator", sequenceName = "org_sequence", initialValue = 1)
+	@SequenceGenerator(name = "org_generator", sequenceName = "organization_sequence", initialValue = 1)
 	private Long id;
 
 	@OneToOne
