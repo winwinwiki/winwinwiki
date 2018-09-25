@@ -9,8 +9,11 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "Revenue")
+@Data
 public class Revenue extends AuditModel {
 	@Id
 	@GeneratedValue(generator = "revenue_generator")
@@ -28,4 +31,6 @@ public class Revenue extends AuditModel {
 	@Size(min = 1, max = 5)
 	private Double currency;
 
+	@Column(precision=20, scale=2)
+	private Long org_id;
 }

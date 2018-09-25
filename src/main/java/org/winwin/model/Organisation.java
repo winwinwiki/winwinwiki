@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "Organisation")
@@ -27,6 +29,47 @@ public class Organisation extends AuditModel {
 	private Address address;
 
 	@OneToMany
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "org_id")
 	private List<Revenue> revenue;
+	
+	@Column(precision=10, scale=0)
+	private Long parentId;
+	
+
+	@NotBlank
+	@Column(nullable = false)
+	String name;
+	
+	@NotBlank
+	@Column(nullable = false)
+	String description;
+	
+	@Column
+    Long totalAssets;
+	
+	@NotBlank
+	@Column(nullable = false)
+    String sector;
+	
+	@NotBlank
+	@Column(nullable = false)
+    String sectorLevel;
+	
+	@NotBlank
+	@Column(nullable = false)
+    String priority;
+	
+	@Column(nullable = false)
+    boolean isTaggingReady;
+	
+	@NotBlank
+	@Column(nullable = false)
+    String tagStatus;
+	
+	@Column
+    String website;
+	
+	@Column
+	boolean isActive;
+
 }
