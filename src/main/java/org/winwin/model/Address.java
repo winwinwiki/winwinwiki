@@ -24,12 +24,12 @@ public class Address extends AuditModel {
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String street;
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String city;
 
 	@NotBlank
@@ -39,16 +39,16 @@ public class Address extends AuditModel {
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String state;
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String zip;
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
-	@Size(min = 3, max = 100)
+	@Size(min = 1, max = 100)
 	private String country;
 }
