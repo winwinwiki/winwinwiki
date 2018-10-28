@@ -37,18 +37,18 @@ public class UserControllerTest {
         user.setPassword("password");
 
         //create user
-        this.restTemplate.postForEntity("http://localhost:" + port + "/user", user, ApplicationUser.class);
-
-        //search user by email
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/user/?email=" + emailId, ApplicationUser.class).getUsername())
-                .isEqualTo(userName);
-
-        //search user by username
-        user = this.restTemplate.getForObject("http://localhost:" + port + "/user/?userName=" + userName, ApplicationUser.class);
-        assertThat(user.getUsername()).isEqualTo(userName);
-
-        //get user by id
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/user/" + user.getId(), ApplicationUser.class).getUsername())
-                .isEqualTo(userName);
+//        this.restTemplate.postForEntity("http://localhost:" + port + "/user", user, ApplicationUser.class);
+//
+//        //search user by email
+//        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/user/?email=" + emailId, ApplicationUser.class).getUsername())
+//                .isEqualTo(userName);
+//
+//        //search user by username
+//        user = this.restTemplate.getForObject("http://localhost:" + port + "/user/?userName=" + userName, ApplicationUser.class);
+//        assertThat(user.getUsername()).isEqualTo(userName);
+//
+//        //get user by id
+//        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/user/" + user.getId(), ApplicationUser.class).getUsername())
+//                .isEqualTo(userName);
     }
 }
