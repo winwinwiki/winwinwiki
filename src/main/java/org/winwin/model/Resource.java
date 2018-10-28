@@ -7,32 +7,33 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
 @Entity
-@Table(name = "Revenue")
+@Table(name = "Resource")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
-public class Revenue extends AuditModel {
-	final static String INDEX_NAME = "revenue";  
+public class Resource extends AuditModel {
+	
+	final static String INDEX_NAME = "resource";  
 	@Id
 	@GeneratedValue(generator = INDEX_NAME + "_generator")
 	@SequenceGenerator(name = INDEX_NAME+ "_generator", sequenceName = INDEX_NAME +"_sequence", initialValue = 1)
 	private Long id;
 
+	@NotBlank
+	@Column(nullable = false)
+	String category;
+	
+	
+	@Column
+	Long count;
 	
 	@NotBlank
-	@Column(precision=4, scale=0)
-	private Long year;
+	@Column(nullable = false)
+	String description;
 
-	@Column(precision=20, scale=2)
-	private Double amount;
-	
-	@Column(columnDefinition = "TEXT")
-	@Size(min = 1, max = 5)
-	private Double currency;
-
-	@Column(precision=20, scale=2)
-	private Long org_id;
 }

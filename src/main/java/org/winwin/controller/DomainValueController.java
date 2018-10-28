@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.winwin.lib.AuthEncoder;
 import org.winwin.model.SDG;
 import org.winwin.model.SPI;
 import org.winwin.repository.SDGRepository;
@@ -23,13 +25,15 @@ public class DomainValueController {
 	private SDGRepository sdgRepository;
 
 	@GetMapping("/domain/spi")
-	public List<SPI> getSPI() {
+	public List<SPI> getSPI(@RequestHeader(AuthEncoder.AUTH_HEADER) String authValue) {
+		Long userId = AuthEncoder.validateAuthHeader(authValue);
 		List<SPI> values = spiRepository.findAll();
 		return values;
 	}
 
 	@GetMapping("/domain/sdg")
-	public List<SDG> getSDG() {
+	public List<SDG> getSDG(@RequestHeader(AuthEncoder.AUTH_HEADER) String authValue) {
+		Long userId = AuthEncoder.validateAuthHeader(authValue);
 		List<SDG> values = sdgRepository.findAll();
 		return values;
 	}

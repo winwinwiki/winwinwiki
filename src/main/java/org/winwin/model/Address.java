@@ -17,10 +17,12 @@ import javax.validation.constraints.Size;
 public class Address extends AuditModel {
 	private static final long serialVersionUID = 7217969939976608075L;
 
+	final static String INDEX_NAME = "address";  
 	@Id
-	@GeneratedValue(generator = "address_generator")
-	@SequenceGenerator(name = "address_generator", sequenceName = "address_sequence", initialValue = 1)
-	private Long address_id;
+	@GeneratedValue(generator = INDEX_NAME + "_generator")
+	@SequenceGenerator(name = INDEX_NAME+ "_generator", sequenceName = INDEX_NAME +"_sequence", initialValue = 1)
+	private Long id;
+
 
 	@NotBlank
 	@Column(columnDefinition = "TEXT")
