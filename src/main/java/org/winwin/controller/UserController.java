@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.winwin.api.entity.LoginDetail;
 import org.winwin.lib.AuthEncoder;
@@ -57,7 +58,9 @@ public class UserController {
 	}
 
 	@GetMapping("/user")
-	public ApplicationUser searchUser(@RequestHeader(AuthEncoder.AUTH_HEADER) String authValue, @Param("username") String userName, @Param("email") String email) {
+	public ApplicationUser searchUser(@RequestHeader(AuthEncoder.AUTH_HEADER) String authValue,
+			@RequestParam(value = "username", required = false) String userName,
+			@RequestParam(value = "email", required = false) String email) {
 		ApplicationUser result = null;
 		if(! StringUtils.isEmpty(userName)) {
 			result = auRepository.findByUsername(userName);
