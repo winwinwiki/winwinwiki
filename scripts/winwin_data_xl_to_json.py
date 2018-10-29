@@ -13,7 +13,7 @@ def main(argv):
     format = ''
     es_url = None
     delete_index = False 
-    help_string = os.path.basename(__file__) + ' --deleteindex --inputfile <path to inputfile> --url <elastic search url>'
+    help_string = os.path.basename(__file__) + ' -d -i <path to inputfile> -u <elastic search url>'
     try:
         opts, args = getopt.getopt(argv,"hdi:f:u:",["inputfile=","format=","url="])
     except getopt.GetoptError:
