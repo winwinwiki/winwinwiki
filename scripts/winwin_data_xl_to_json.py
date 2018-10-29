@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import datetime
 import sys, getopt
 import json
 import os
@@ -9,31 +10,35 @@ import pandas as pd
 #Get Command Line Arguments
 def main(argv):
     input_file = ''
-    output_file = ''
     format = ''
     es_url = None
-    help_string = os.path.basename(__file__) + ' -i <path to inputfile> -o <path to outputfile> -f <dump/pretty> -u <es-url>'
+    delete_index = False 
+    help_string = os.path.basename(__file__) + ' --deleteindex --inputfile <path to inputfile> --url <elastic search url>'
     try:
-        opts, args = getopt.getopt(argv,"hi:o:f:u:",["ifile=","ofile=","format=","es-url="])
+        opts, args = getopt.getopt(argv,"hdi:f:u:",["inputfile=","format=","url="])
     except getopt.GetoptError:
         print help_string
         sys.exit(2)
     for opt, arg in opts:
-        if opt == '-h':
+        if opt == ("-h", "--help"):
             print help_string
             sys.exit()
-        elif opt in ("-i", "--ifile"):
+        elif opt in ("-i", "--inputfile"):
             input_file = arg
-        elif opt in ("-o", "--ofile"):
-            output_file = arg
         elif opt in ("-f", "--format"):
             format = arg
-        elif opt in ("-u", "--es-url"):
+        elif opt in ("-u", "--url"):
             es_url = arg
+        elif opt in ("-d", "--deleteindex"):
+            delete_index = True
+
+    if delete_index:
+        print "\ndeleting records\n"
+        os.system(get_delete_command(es_url))
 
     if es_url:
         format = "dump"
-    process_excel(input_file, output_file, format, es_url)
+    process_excel(input_file, format, es_url)
 
 def is_float(input):
   try:
@@ -42,17 +47,22 @@ def is_float(input):
     return False
   return True
 
+def get_delete_command(es_url):
+    return "curl -XDELETE {0}".format(es_url)
+
+def get_post_command(es_url, json_file):
+    return "curl -XPOST {0}/_bulk --data-binary \@{1} -H 'Content-Type: application/json'".format(es_url, json_file)
+
 #Process Excel File
-def process_excel(file, json_file, format, es_url):
+def process_excel(file, format, es_url):
     csv_rows = []
-    upload_command = None
-    if es_url:
-        upload_command = "curl -XPOST {}/_bulk --data-binary \@{} -H 'Content-Type: application/json'".format(es_url, json_file)
     xl = pd.ExcelFile(file)
     first_sheet = xl.sheet_names[0]
     df = xl.parse(first_sheet) # assume data is in first sheet
     columns = df.columns
     row_count = 0
+    batch_number = 0
+    output_file_prefix = datetime.datetime.today().strftime('%Y-%m-%d-%H-%M-%S')
     for _, row in df.iterrows():
         SPI = {}
         SDG = {}
@@ -76,6 +86,8 @@ def process_excel(file, json_file, format, es_url):
                         if not is_float(field_value):
                             print "leaving out cell:{} with value:{}".format(field_name, field_value)
                             continue
+                if field_name in ["EIN", "Headquarters Zip Code", "Organization"]:
+                    field_value = unicode(field_value)
  
                 spi_primary_field = re.search('Primary( \S*)( \(Auto\))*', field_name, re.IGNORECASE)
                 spi_field = re.search('SPI( \S*)( \d+)*( \(Auto\))*', field_name, re.IGNORECASE)
@@ -125,16 +137,20 @@ def process_excel(file, json_file, format, es_url):
             csv_rows.append(program)
 
         if es_url and row_count % 1000 == 0:
-            write_json(csv_rows, json_file, format)
-            os.system(upload_command)
+            batch_number = batch_number + 1
+            json_file = write_json(csv_rows, format, output_file_prefix, batch_number)
+            os.system(get_post_command(es_url, json_file))
             print "\nuploaded {} records".format(row_count)
             csv_rows = []
 
-    write_json(csv_rows, json_file, format)
-    if es_url and row_count % 1000 != 0:
-        os.system(upload_command)
-        print "\nuploaded {} records".format(row_count)
-        #os.remove(json_file)
+    # process remaining rows
+    if row_count % 1000 != 0:
+        batch_number = batch_number + 1
+        json_file = write_json(csv_rows, format, output_file_prefix, batch_number)
+        if es_url:
+            os.system(get_post_command(es_url, json_file))
+            print "\nuploaded {} records".format(row_count)
+
     print "\nprocessed {} records".format(row_count)
 
 def map_to_array(inputMap):
@@ -144,7 +160,9 @@ def map_to_array(inputMap):
     return outputArray
 
 #Convert csv data into json and write it
-def write_json(data, json_file, format):
+def write_json(data, format, output_file_prefix, batch_number):
+    json_file = '{0}-{1}.json'.format(output_file_prefix, batch_number)
+    print "\nuoutput file json_file\n".format(json_file)
     with open(json_file, "w") as f:
         for entry in data:
             if format == "pretty":
@@ -152,6 +170,7 @@ def write_json(data, json_file, format):
             else:
                 f.write(json.dumps(entry))
             f.write("\n")
+    return json_file
 
 if __name__ == "__main__":
    main(sys.argv[1:])
