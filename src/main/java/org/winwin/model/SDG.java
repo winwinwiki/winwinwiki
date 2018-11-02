@@ -15,10 +15,13 @@ import lombok.Data;
 @Table(name = "SDGData")
 public class SDG extends AuditModel{
 	
+  
+	final static String INDEX_NAME = "sdg";  
 	@Id
-	@GeneratedValue(generator = "sdg_generator")
-	@SequenceGenerator(name = "sdg_generator", sequenceName = "sdg_sequence", initialValue = 1)
-	private long id;
+	@GeneratedValue(generator = INDEX_NAME + "_generator")
+	@SequenceGenerator(name = INDEX_NAME+ "_generator", sequenceName = INDEX_NAME +"_sequence", initialValue = 1)
+	private Long id;
+
 	
 	@NotBlank
 	@Column(columnDefinition = "TEXT")

@@ -19,10 +19,13 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "Organization")
 @Data
 public class Organization extends AuditModel {
+
+	final static String INDEX_NAME = "org";  
 	@Id
-	@GeneratedValue(generator = "org_generator")
-	@SequenceGenerator(name = "org_generator", sequenceName = "organization_sequence", initialValue = 1)
+	@GeneratedValue(generator = INDEX_NAME + "_generator")
+	@SequenceGenerator(name = INDEX_NAME+ "_generator", sequenceName = INDEX_NAME +"_sequence", initialValue = 1)
 	private Long id;
+
 
 	@OneToOne
 	@JoinColumn(name = "address_id")

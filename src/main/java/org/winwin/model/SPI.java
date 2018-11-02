@@ -1,10 +1,9 @@
 package org.winwin.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -17,11 +16,10 @@ import lombok.Data;
 @Data
 public class SPI extends AuditModel {
 
-	private static final long serialVersionUID = 7548032244417380713L;
-
+	final static String INDEX_NAME = "spi";  
 	@Id
-	@GeneratedValue(generator = "spi_generator")
-	@SequenceGenerator(name = "spi_generator", sequenceName = "spi_sequence", initialValue = 1)
+	@GeneratedValue(generator = INDEX_NAME + "_generator")
+	@SequenceGenerator(name = INDEX_NAME+ "_generator", sequenceName = INDEX_NAME +"_sequence", initialValue = 1)
 	private Long id;
 
 	@NotBlank
