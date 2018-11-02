@@ -11,7 +11,7 @@ env:
 jdk:
   - openjdk10
 services:
-    - postgresql
+  - postgresql
 before_script:
   - psql --port=$WINWIN_DB_PORT -c "CREATE DATABASE winwindb;"
   - psql --port=$WINWIN_DB_PORT -c "CREATE USER winwindbuser WITH ENCRYPTED PASSWORD 'winwindbpassword';"
